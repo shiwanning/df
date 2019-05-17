@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisRechargeTransactionMapper">
+  <resultMap id="BaseResultMap" type="com.tcg.mis.model.MisRechargeTransaction">
+    <id column="RID" jdbcType="DECIMAL" property="rid" />
+    <result column="ORDER_NO" jdbcType="VARCHAR" property="orderNo" />
+    <result column="RECHARGE_BANK_ID" jdbcType="DECIMAL" property="rechargeBankId" />
+    <result column="RECHARGE_BANK_NAME" jdbcType="VARCHAR" property="rechargeBankName" />
+    <result column="RECHARGE_BANK_ACCOUNT" jdbcType="VARCHAR" property="rechargeBankAccount" />
+    <result column="RECHARGE_ACCOUNT_AMOUNT" jdbcType="DECIMAL" property="rechargeAccountAmount" />
+    <result column="TP_ORDER_NO" jdbcType="VARCHAR" property="tpOrderNo" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="TX_AMOUNT" jdbcType="DECIMAL" property="txAmount" />
+    <result column="ACTUAL_AMOUNT" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_OPERATOR_NAME" jdbcType="VARCHAR" property="createOperatorName" />
+    <result column="UPDATE_OPERATOR_NAME" jdbcType="VARCHAR" property="updateOperatorName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="GET_TIME" jdbcType="TIMESTAMP" property="getTime" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RID, ORDER_NO, RECHARGE_BANK_ID, RECHARGE_BANK_NAME, RECHARGE_BANK_ACCOUNT, RECHARGE_ACCOUNT_AMOUNT, 
+    TP_ORDER_NO, STATUS, TX_AMOUNT, ACTUAL_AMOUNT, REMARK, CREATE_OPERATOR_NAME, UPDATE_OPERATOR_NAME,
+    CREATE_TIME, UPDATE_TIME, GET_TIME, MESSAGE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MIS_RECHARGE_TRANSACTION
+    where RID = #{rid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from MIS_RECHARGE_TRANSACTION
+    where RID = #{rid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tcg.mis.model.MisRechargeTransaction">
+    insert into MIS_RECHARGE_TRANSACTION (ORDER_NO, RECHARGE_BANK_ID, RECHARGE_BANK_NAME, 
+      RECHARGE_BANK_ACCOUNT, RECHARGE_ACCOUNT_AMOUNT, 
+      TP_ORDER_NO, STATUS, TX_AMOUNT,
+      ACTUAL_AMOUNT, REMARK, CREATE_OPERATOR_NAME, 
+      UPDATE_OPERATOR_NAME, CREATE_TIME, UPDATE_TIME, 
+      GET_TIME, MESSAGE)
+    values (#{orderNo,jdbcType=VARCHAR}, #{rechargeBankId,jdbcType=DECIMAL}, #{rechargeBankName,jdbcType=VARCHAR}, 
+      #{rechargeBankAccount,jdbcType=VARCHAR}, #{rechargeAccountAmount,jdbcType=DECIMAL}, 
+      #{tpOrderNo,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{txAmount,jdbcType=DECIMAL}, 
+      #{actualAmount,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createOperatorName,jdbcType=VARCHAR}, 
+      #{updateOperatorName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{getTime,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tcg.mis.model.MisRechargeTransaction">
+    insert into MIS_RECHARGE_TRANSACTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        ORDER_NO,
+      </if>
+      <if test="rechargeBankId != null">
+        RECHARGE_BANK_ID,
+      </if>
+      <if test="rechargeBankName != null">
+        RECHARGE_BANK_NAME,
+      </if>
+      <if test="rechargeBankAccount != null">
+        RECHARGE_BANK_ACCOUNT,
+      </if>
+      <if test="rechargeAccountAmount != null">
+        RECHARGE_ACCOUNT_AMOUNT,
+      </if>
+      <if test="tpOrderNo != null">
+        TP_ORDER_NO,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="txAmount != null">
+        TX_AMOUNT,
+      </if>
+      <if test="actualAmount != null">
+        ACTUAL_AMOUNT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME,
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="getTime != null">
+        GET_TIME,
+      </if>
+      <if test="message != null">
+        MESSAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeBankId != null">
+        #{rechargeBankId,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeBankName != null">
+        #{rechargeBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeBankAccount != null">
+        #{rechargeBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAccountAmount != null">
+        #{rechargeAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="tpOrderNo != null">
+        #{tpOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="txAmount != null">
+        #{txAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualAmount != null">
+        #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperatorName != null">
+        #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getTime != null">
+        #{getTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tcg.mis.model.MisRechargeTransaction">
+    update MIS_RECHARGE_TRANSACTION
+    <set>
+      <if test="orderNo != null">
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeBankId != null">
+        RECHARGE_BANK_ID = #{rechargeBankId,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeBankName != null">
+        RECHARGE_BANK_NAME = #{rechargeBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeBankAccount != null">
+        RECHARGE_BANK_ACCOUNT = #{rechargeBankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAccountAmount != null">
+        RECHARGE_ACCOUNT_AMOUNT = #{rechargeAccountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="tpOrderNo != null">
+        TP_ORDER_NO = #{tpOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="txAmount != null">
+        TX_AMOUNT = #{txAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualAmount != null">
+        ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getTime != null">
+        GET_TIME = #{getTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null">
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tcg.mis.model.MisRechargeTransaction">
+    update MIS_RECHARGE_TRANSACTION
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      RECHARGE_BANK_ID = #{rechargeBankId,jdbcType=DECIMAL},
+      RECHARGE_BANK_NAME = #{rechargeBankName,jdbcType=VARCHAR},
+      RECHARGE_BANK_ACCOUNT = #{rechargeBankAccount,jdbcType=VARCHAR},
+      RECHARGE_ACCOUNT_AMOUNT = #{rechargeAccountAmount,jdbcType=DECIMAL},
+      TP_ORDER_NO = #{tpOrderNo,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      TX_AMOUNT = #{txAmount,jdbcType=DECIMAL},
+      ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      GET_TIME = #{getTime,jdbcType=TIMESTAMP},
+      MESSAGE = #{message,jdbcType=VARCHAR}
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+
+
+    <sql id="selectByConditionSql">
+        SELECT *
+        FROM (
+            SELECT
+            MRD.RID,
+            MRD.MERCHANT_CODE,
+            MRD.BANK_TYPE,
+            MRD.RECHARGE_TYPE,
+            MRD.RECHARGE_CHARGE,
+            MRD.RECHARGE_FEE,
+            MRD.REMARK DETAIL_REMARK,
+            MRD.FILE_URL,
+            MRD.ORDER_NO,
+            MRD.TX_TYPE,
+            MRD.TX_AMOUNT,
+            MRT.RECHARGE_BANK_ID,
+            MRT.RECHARGE_BANK_NAME,
+            MRT.RECHARGE_BANK_ACCOUNT,
+            MRT.RECHARGE_ACCOUNT_AMOUNT,
+            (CASE WHEN MRT.RECHARGE_BANK_ID IS NULL THEN 7 ELSE MRT.STATUS END ) AS STATUS,
+            MRT.REMARK,
+            MRT.CREATE_OPERATOR_NAME,
+            MRT.UPDATE_OPERATOR_NAME,
+            (CASE WHEN MRT.RECHARGE_BANK_ID IS NULL THEN MRD.CREATE_TIME ELSE MRT.CREATE_TIME END ) AS CREATE_TIME,
+            (CASE WHEN MRT.RECHARGE_BANK_ID IS NULL THEN MRD.TX_AMOUNT ELSE MRT.ACTUAL_AMOUNT END ) AS ACTUAL_AMOUNT,
+            (CASE WHEN MRT.RECHARGE_BANK_ID IS NULL THEN MRD.UPDATE_TIME ELSE MRT.GET_TIME END ) AS GET_TIME,
+            MRT.MESSAGE,
+            MRT.UPDATE_TIME
+            FROM TCG_MISDB.MIS_RECHARGE_DETAIL MRD
+            LEFT JOIN TCG_MISDB.MIS_RECHARGE_TRANSACTION MRT ON MRD.ORDER_NO = MRT.ORDER_NO
+        ) T
+        <where>
+            <if test="condition.merchantCode != null">
+                AND T.MERCHANT_CODE = #{condition.merchantCode}
+            </if>
+            <if test="condition.orderNo != null">
+                AND T.ORDER_NO = #{condition.orderNo}
+            </if>
+            <if test="condition.rid != null">
+                AND T.RID = #{condition.rid}
+            </if>
+            <if test="condition.status != null and condition.status != 7">
+                AND T.STATUS = #{condition.status}
+            </if>
+            <if test="condition.status != null and condition.status == 7">
+                AND T.RECHARGE_BANK_ID IS NULL
+            </if>
+            <if test="condition.bankType != null">
+                AND T.BANK_TYPE = #{condition.bankType}
+            </if>
+            <if test="condition.minRequestAmount != null">
+                AND T.TX_AMOUNT &gt;= #{condition.minRequestAmount}
+            </if>
+            <if test="condition.maxRequestAmount != null">
+                AND T.TX_AMOUNT &lt;= #{condition.maxRequestAmount}
+            </if>
+            <if test="condition.requestStartDate != null">
+                AND T.CREATE_TIME &gt;= #{condition.requestStartDate}
+            </if>
+            <if test="condition.requestEndDate != null">
+                AND T.CREATE_TIME &lt;= #{condition.requestEndDate}
+            </if>
+            <if test="condition.payStartDate != null">
+                AND T.GET_TIME &gt;= #{condition.payStartDate}
+            </if>
+            <if test="condition.payEndDate != null">
+                AND T.GET_TIME &lt;= #{condition.payEndDate}
+            </if>
+            <if test="condition.message != null">
+                AND T.MESSAGE = #{condition.message}
+            </if>
+            <if test="condition.rechargeType != null">
+                AND T.RECHARGE_TYPE = #{condition.rechargeType}
+            </if>
+        </where>
+    </sql>
+
+    <select id="findByCondition" resultType="com.tcg.mis.to.response.MisRechargeTo">
+        <include refid="selectByConditionSql"></include>
+    </select>
+
+    <select id="sumByCondition" resultType="com.tcg.mis.to.response.MisRechargeTo">
+        SELECT
+        SUM (RECHARGE_CHARGE) AS RECHARGE_CHARGE,
+        SUM (RECHARGE_FEE) AS RECHARGE_FEE,
+        SUM (TX_AMOUNT) AS TX_AMOUNT,
+        SUM (ACTUAL_AMOUNT) AS ACTUAL_AMOUNT,
+        SUM (RECHARGE_ACCOUNT_AMOUNT) AS RECHARGE_ACCOUNT_AMOUNT
+        FROM (
+        <include refid="selectByConditionSql"></include>
+        ) t
+    </select>
+
+    <select id="findByOrderNo" resultType="com.tcg.mis.model.MisRechargeTransaction">
+      SELECT
+        MRT.RID,
+		MRT.ORDER_NO,
+		MRT.RECHARGE_BANK_ID,
+		MRT.RECHARGE_BANK_NAME,
+		MRT.RECHARGE_BANK_ACCOUNT,
+		MRT.RECHARGE_ACCOUNT_AMOUNT,
+		MRT.TP_ORDER_NO,
+		MRT.MESSAGE,
+		MRT.STATUS,
+		MRT.TX_AMOUNT,
+		MRT.REMARK,
+		MRT.CREATE_OPERATOR_NAME,
+		MRT.UPDATE_OPERATOR_NAME,
+		MRT.CREATE_TIME,
+		MRT.UPDATE_TIME
+	FROM
+	    TCG_MISDB.MIS_RECHARGE_TRANSACTION MRT
+	WHERE ORDER_NO = #{orderNo}
+  </select>
+</mapper>

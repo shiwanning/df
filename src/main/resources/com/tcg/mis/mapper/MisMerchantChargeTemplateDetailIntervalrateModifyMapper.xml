@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisMerchantChargeTemplateDetailIntervalrateModifyMapper">
+  	
+  	<sql id="BaseColumns">
+        ${alias}.RID,
+		${alias}.DETAIL_RID,
+		${alias}.MIN_AMOUNT,
+		${alias}.MAX_AMOUNT,
+		${alias}.RATE,
+		${alias}.CREATE_OPERATOR_NAME,
+		${alias}.UPDATE_OPERATOR_NAME,
+		${alias}.CREATE_TIME,
+		${alias}.UPDATE_TIME
+    </sql>
+    
+    <sql id="BaseColumnsNoAlias">
+        RID,
+		DETAIL_RID,
+		MIN_AMOUNT,
+		MAX_AMOUNT,
+		RATE,
+		CREATE_OPERATOR_NAME,
+		UPDATE_OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+
+    <insert id="insert">
+        <selectKey keyProperty="rid" resultType="long" order="BEFORE">
+            SELECT SEQ_MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_INTERVALRATE_MODIFY.nextval from dual
+        </selectKey>
+        INSERT INTO MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_INTERVALRATE_MODIFY(<include refid="BaseColumnsNoAlias" />) 
+        VALUES (#{rid}, #{detailRid}, #{minAmount}, #{maxAmount}, #{rate}, #{createOperatorName}, #{updateOperatorName}, SYSTIMESTAMP, SYSTIMESTAMP)
+    </insert>
+    
+    <update id="update">
+        UPDATE MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_INTERVALRATE_MODIFY SET
+			DETAIL_RID = #{detailRid},
+			MIN_AMOUNT = #{minAmount},
+			MAX_AMOUNT = #{maxAmount},
+			RATE = #{rate},
+			UPDATE_OPERATOR_NAME = #{updateOperatorName},
+			UPDATE_TIME = SYSTIMESTAMP
+		WHERE RID = #{rid}
+    </update>
+    
+    <select id="findByDetailRid" resultType="MisMerchantChargeTemplateDetailIntervalrateModify">
+    	select <include refid="BaseColumns" ><property name="alias" value="md"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_INTERVALRATE_MODIFY md
+    	<where> 
+    		AND md.DETAIL_RID = #{detailRid}
+    	</where>
+    	order by md.rid
+    </select>
+    
+</mapper>

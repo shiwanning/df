@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MerchantPointSummaryMapper">
+    <sql id="baseColumns">
+        ID,
+        BALANCE_DATE,
+        MERCHANT_CODE,
+        RECHARGE_NUM,
+        RECHARGE_AMOUNT,
+        VENDOR,
+        SUB_PRODUCT,
+        RATES,
+        BUY_POINTS,
+        BUY_POINTS_AMOUNT,
+        SELL_POINTS,
+        SELL_POINTS_AMOUNT,
+        USED_POINTS,
+        CURRENCY,
+        BEGAIN_PINT_NUMBER,
+        END_POINT_NUMBER,
+        START_DATE,
+        END_DATE
+    </sql>
+    <sql id="baseWhere">
+        <if test="id != null">AND ID = #{id}</if>
+        <if test="balanceDate != null">AND BALANCE_DATE = #{balanceDate}</if>
+        <if test="merchantCode != null">AND MERCHANT_CODE = #{merchantCode}</if>
+        <if test="rechargeNum != null">AND RECHARGE_NUM = #{rechargeNum}</if>
+        <if test="rechargeAmount != null">AND RECHARGE_AMOUNT = #{rechargeAmount}</if>
+        <if test="vendor != null">AND VENDOR = #{vendor}</if>
+        <if test="subProduct != null">AND SUB_PRODUCT = #{subProduct}</if>
+        <if test="rates != null">AND RATES = #{rates}</if>
+        <if test="buyPoints != null">AND BUY_POINTS = #{buyPoints}</if>
+        <if test="buyPointsAmount != null">AND BUY_POINTS_AMOUNT = #{buyPointsAmount}</if>
+        <if test="sellPoints != null">AND SELL_POINTS = #{sellPoints}</if>
+        <if test="sellPointsAmount != null">AND SELL_POINTS_AMOUNT = #{sellPointsAmount}</if>
+        <if test="usedPoints != null">AND USED_POINTS = #{usedPoints}</if>
+        <if test="currency != null">AND CURRENCY = #{currency}</if>
+        <if test="begainPintNumber != null">AND BEGAIN_PINT_NUMBER = #{begainPintNumber}</if>
+        <if test="endPointNumber != null">AND END_POINT_NUMBER = #{endPointNumber}</if>
+        <if test="startDate != null">AND START_DATE = #{startDate}</if>
+        <if test="endDate != null">AND END_DATE = #{endDate}</if>
+    </sql>
+
+
+    <select id="getList" resultType="MerchantPointSummary">
+        select
+        <include refid="baseColumns"/>
+        from MIS_MERCHANT_POINT_SUMMARY
+        <where>
+            <include refid="baseWhere"/>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="MerchantPointSummary">
+        insert into MIS_MERCHANT_POINT_SUMMARY (
+        <if test="id != null">ID,</if>
+        <if test="balanceDate != null">BALANCE_DATE,</if>
+        <if test="merchantCode != null">MERCHANT_CODE,</if>
+        <if test="rechargeNum != null">RECHARGE_NUM,</if>
+        <if test="rechargeAmount != null">RECHARGE_AMOUNT,</if>
+        <if test="vendor != null">VENDOR,</if>
+        <if test="subProduct != null">SUB_PRODUCT,</if>
+        <if test="rates != null">RATES,</if>
+        <if test="buyPoints != null">BUY_POINTS,</if>
+        <if test="buyPointsAmount != null">BUY_POINTS_AMOUNT,</if>
+        <if test="sellPoints != null">SELL_POINTS,</if>
+        <if test="sellPointsAmount != null">SELL_POINTS_AMOUNT,</if>
+        <if test="usedPoints != null">USED_POINTS,</if>
+        <if test="currency != null">CURRENCY,</if>
+        <if test="begainPintNumber != null">BEGAIN_PINT_NUMBER,</if>
+        <if test="endPointNumber != null">END_POINT_NUMBER,</if>
+        <if test="startDate != null">START_DATE,</if>
+        <if test="endDate != null">END_DATE</if>
+        ) values (
+        <if test="id != null">#{id},</if>
+        <if test="balanceDate != null">#{balanceDate},</if>
+        <if test="merchantCode != null">#{merchantCode},</if>
+        <if test="rechargeNum != null">#{rechargeNum},</if>
+        <if test="rechargeAmount != null">#{rechargeAmount},</if>
+        <if test="vendor != null">#{vendor},</if>
+        <if test="subProduct != null">#{subProduct},</if>
+        <if test="rates != null">#{rates},</if>
+        <if test="buyPoints != null">#{buyPoints},</if>
+        <if test="buyPointsAmount != null">#{buyPointsAmount},</if>
+        <if test="sellPoints != null">#{sellPoints},</if>
+        <if test="sellPointsAmount != null">#{sellPointsAmount},</if>
+        <if test="usedPoints != null">#{usedPoints},</if>
+        <if test="currency != null">#{currency},</if>
+        <if test="begainPintNumber != null">#{begainPintNumber},</if>
+        <if test="endPointNumber != null">#{endPointNumber},</if>
+        <if test="startDate != null">#{startDate},</if>
+        <if test="endDate != null">#{endDate}</if>
+        )
+    </insert>
+
+    <update id="update" parameterType="MerchantPointSummary">
+        update MIS_MERCHANT_POINT_SUMMARY
+        <set>
+            <if test="balanceDate != null">BALANCE_DATE = #{balanceDate},</if>
+            <if test="merchantCode != null">MERCHANT_CODE = #{merchantCode},</if>
+            <if test="rechargeNum != null">RECHARGE_NUM = #{rechargeNum},</if>
+            <if test="rechargeAmount != null">RECHARGE_AMOUNT = #{rechargeAmount},</if>
+            <if test="vendor != null">VENDOR = #{vendor},</if>
+            <if test="subProduct != null">SUB_PRODUCT = #{subProduct},</if>
+            <if test="rates != null">RATES = #{rates},</if>
+            <if test="buyPoints != null">BUY_POINTS = #{buyPoints},</if>
+            <if test="buyPointsAmount != null">BUY_POINTS_AMOUNT = #{buyPointsAmount},</if>
+            <if test="sellPoints != null">SELL_POINTS = #{sellPoints},</if>
+            <if test="sellPointsAmount != null">SELL_POINTS_AMOUNT = #{sellPointsAmount},</if>
+            <if test="usedPoints != null">USED_POINTS = #{usedPoints},</if>
+            <if test="currency != null">CURRENCY = #{currency},</if>
+            <if test="begainPintNumber != null">BEGAIN_PINT_NUMBER = #{begainPintNumber},</if>
+            <if test="endPointNumber != null">END_POINT_NUMBER = #{endPointNumber},</if>
+            <if test="startDate != null">START_DATE = #{startDate},</if>
+            <if test="endDate != null">END_DATE = #{endDate},</if>
+        </set>
+        <where>
+            <include refid="baseWhere"/>
+        </where>
+    </update>
+
+    <delete id="delete" parameterType="list">
+        delete from MIS_MERCHANT_POINT_SUMMARY
+        <where>
+            <include refid="baseWhere"/>
+        </where>
+    </delete>
+</mapper>

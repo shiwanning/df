@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisMerchantChargeTemplateMapper">
+  	
+  	<sql id="BaseColumns">
+        ${alias}.RID,
+		${alias}.NAME,
+		${alias}.TEMPLATE_TYPE,
+		${alias}.CREATE_OPERATOR_NAME,
+		${alias}.UPDATE_OPERATOR_NAME,
+		${alias}.CREATE_TIME,
+		${alias}.UPDATE_TIME
+    </sql>
+    
+    <sql id="BaseColumnsNoAlias">
+        RID,
+		NAME,
+		TEMPLATE_TYPE,
+		CREATE_OPERATOR_NAME,
+		UPDATE_OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+
+    <insert id="insert">
+        <selectKey keyProperty="rid" resultType="long" order="BEFORE">
+            SELECT SEQ_MIS_MERCHANT_CHARGE_TEMPLATE.nextval from dual
+        </selectKey>
+        INSERT INTO MIS_MERCHANT_CHARGE_TEMPLATE(<include refid="BaseColumnsNoAlias" />) 
+        VALUES (#{rid}, #{name}, #{templateType}, #{createOperatorName}, #{updateOperatorName}, SYSTIMESTAMP, SYSTIMESTAMP)
+    </insert>
+    
+    <update id="update">
+        UPDATE MIS_MERCHANT_CHARGE_TEMPLATE SET
+			NAME = #{name},
+			TEMPLATE_TYPE = #{templateType},
+			UPDATE_OPERATOR_NAME = #{updateOperatorName},
+			UPDATE_TIME = SYSTIMESTAMP
+		WHERE RID = #{rid}
+    </update>
+    
+    <select id="findByCondition" resultType="MisMerchantChargeTemplate">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE mc 
+    	<if test="condition.merchantCode != null">
+    		INNER JOIN MIS_MERCHANT_CHARGE_CONFIG ig ON mc.RID = ig.TEMPLATE_RID AND ig.MERCHANT_CODE like '%' || #{condition.merchantCode} || '%'
+    	</if>
+    	<where> 
+	    	<if test="condition.templateType != null">
+	    		AND mc.TEMPLATE_TYPE = #{condition.templateType}
+	    	</if>
+	    	<if test="condition.templateName != null">
+	    		AND mc.NAME LIKE '%'  || #{condition.templateName} || '%'
+	    	</if>
+	    	<if test="condition.operator != null">
+	    		AND mc.CREATE_OPERATOR_NAME = #{condition.operator}
+	    	</if>
+	    	<if test="condition.startDate != null and condition.endDate != null">
+	    		AND mc.CREATE_TIME BETWEEN #{condition.startDate} AND #{condition.endDate}
+	    	</if>
+    	</where>
+    </select>
+    
+    <select id="findOne" resultType="MisMerchantChargeTemplate">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE mc 
+    	<where> 
+    		AND RID = #{rid}
+    	</where>
+    </select>
+    
+    <select id="findByTemplateType" resultType="MisMerchantChargeTemplate">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE mc 
+    	<where> 
+    	    <if test="templateType != null">
+    	        AND TEMPLATE_TYPE = #{templateType}
+    	    </if>
+    	</where>
+    	order by mc.CREATE_TIME desc
+    </select>
+    
+    <select id="findByReviewRid" resultType="MisMerchantChargeTemplate">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE mc 
+    	INNER JOIN MIS_MERCHANT_CHARGE_TEMPLATE_MODIFY ctm ON ctm.TEMPLATE_RID = mc.RID
+    	INNER JOIN MIS_MERCHANT_CHARGE_TEMPLATE_REVIEW ctr ON ctr.MODIFY_RID = ctm.RID
+    	<where> 
+    		AND ctr.RID = #{reviewRid}
+    	</where>
+    </select>
+    
+</mapper>

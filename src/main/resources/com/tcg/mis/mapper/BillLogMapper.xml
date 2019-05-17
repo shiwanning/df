@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.BillLogMapper">
+    <sql id="baseColumns">
+        ID,
+        BILL_MASTER_ID,
+        BILL_DETAIL_ID,
+        DETAIL_MODIFY,
+        UPDATE_CONTENT,
+        UPDATE_OPERATOR_NAME,
+        UPDATE_TIME
+    </sql>
+    <sql id="baseWhere">
+        <if test="id != null">AND ID = #{id}</if>
+        <if test="billMasterId != null">AND BILL_MASTER_ID = #{billMasterId}</if>
+        <if test="billDetailId != null">AND BILL_DETAIL_ID = #{billDetailId}</if>
+        <if test="detailModify != null">AND DETAIL_MODIFY = #{detailModify}</if>
+        <if test="updateContent != null">AND UPDATE_CONTENT = #{updateContent}</if>
+        <if test="updateOperatorName != null">AND UPDATE_OPERATOR_NAME = #{updateOperatorName}</if>
+        <if test="updateTime != null">AND UPDATE_TIME = #{updateTime}</if>
+    </sql>
+
+
+    <select id="getList" resultType="BillLog">
+        select
+        <include refid="baseColumns"/>
+        from MIS_BILL_LOG
+        <where>
+            <include refid="baseWhere"/>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="BillLog">
+        insert into MIS_BILL_LOG (
+        <if test="id != null">ID,</if>
+        <if test="billMasterId != null">BILL_MASTER_ID,</if>
+        <if test="billDetailId != null">BILL_DETAIL_ID,</if>
+        <if test="detailModify != null">DETAIL_MODIFY,</if>
+        <if test="updateContent != null">UPDATE_CONTENT,</if>
+        <if test="updateOperatorName != null">UPDATE_OPERATOR_NAME,</if>
+        <if test="updateTime != null">UPDATE_TIME</if>
+        ) values (
+        <if test="id != null">#{id},</if>
+        <if test="billMasterId != null">#{billMasterId},</if>
+        <if test="billDetailId != null">#{billDetailId},</if>
+        <if test="detailModify != null">#{detailModify},</if>
+        <if test="updateContent != null">#{updateContent},</if>
+        <if test="updateOperatorName != null">#{updateOperatorName},</if>
+        <if test="updateTime != null">#{updateTime}</if>
+        )
+    </insert>
+
+    <update id="update" parameterType="BillLog">
+        update MIS_BILL_LOG
+        <set>
+            <if test="billMasterId != null">BILL_MASTER_ID = #{billMasterId},</if>
+            <if test="billDetailId != null">BILL_DETAIL_ID = #{billDetailId},</if>
+            <if test="detailModify != null">DETAIL_MODIFY = #{detailModify},</if>
+            <if test="updateContent != null">UPDATE_CONTENT = #{updateContent},</if>
+            <if test="updateOperatorName != null">UPDATE_OPERATOR_NAME = #{updateOperatorName},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+        </set>
+        <where>
+            <include refid="baseWhere"/>
+        </where>
+    </update>
+
+    <delete id="delete" parameterType="list">
+        delete from MIS_BILL_LOG
+        <where>
+            <include refid="baseWhere"/>
+        </where>
+    </delete>
+</mapper>

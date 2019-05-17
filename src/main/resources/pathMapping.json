@@ -1,0 +1,14 @@
+[
+	{
+		"key": "mcs-load-bank-code",
+		"targetPath": "/mcs-console/bank/loadBankCodeAsReferenceByCurrency",
+		"server": "TCG-CONSOLE03",
+		"port": 7001
+	},
+	{
+		"key": "pss-bank-required-field",
+		"targetPath": "/tcg-payment-pg-handler/getThirdPartyRequiredParameters",
+		"server": "TCG-PSS04",
+		"port": 7001
+	}
+]

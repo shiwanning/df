@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MerchantBillDiscountLogMapper">
+    <sql id="baseColumns">
+        ID,
+        BILL_MASTER_ID,
+        DISCOUNT_TYPE,
+        DISCOUNT_AMOUNT,
+        OPERATOR,
+        CREATE_DATE
+    </sql>
+    <sql id="baseWhere">
+        <if test="id != null"> AND ID = #{id}</if>
+        <if test="billMasterId != null"> AND BILL_MASTER_ID = #{billMasterId}</if>
+        <if test="discountType != null"> AND DISCOUNT_TYPE = #{discountType}</if>
+        <if test="discountAmount != null"> AND DISCOUNT_AMOUNT = #{discountAmount}</if>
+        <if test="operator != null"> AND OPERATOR = #{operator}</if>
+        <if test="createDate != null"> AND CREATE_DATE = #{createDate}</if>
+    </sql>
+
+
+
+    <select id="getList" resultType="MerchantBillDiscountLog">
+        select
+        <include refid="baseColumns"/>
+        from MIS_MERCHANT_BILL_DISCOUNT_LOG
+        <where><include refid="baseWhere"/></where>
+    </select>
+
+    <insert id="insert" parameterType="MerchantBillDiscountLog">
+        insert into MIS_MERCHANT_BILL_DISCOUNT_LOG (
+            <if test="billMasterId != null">BILL_MASTER_ID,</if>
+            <if test="discountType != null">DISCOUNT_TYPE,</if>
+            <if test="discountAmount != null">DISCOUNT_AMOUNT,</if>
+            <if test="operator != null">OPERATOR,</if>
+            <if test="createDate != null">CREATE_DATE</if>
+        ) values (
+            <if test="billMasterId != null">#{billMasterId},</if>
+            <if test="discountType != null">#{discountType},</if>
+            <if test="discountAmount != null">#{discountAmount},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="createDate != null">#{createDate}</if>
+        )
+    </insert>
+
+    <update id="update" parameterType="MerchantBillDiscountLog">
+        update MIS_MERCHANT_BILL_DISCOUNT_LOG
+        <set>
+            <if test="billMasterId != null">BILL_MASTER_ID = #{billMasterId},</if>
+            <if test="discountType != null">DISCOUNT_TYPE = #{discountType},</if>
+            <if test="discountAmount != null">DISCOUNT_AMOUNT = #{discountAmount},</if>
+            <if test="operator != null">OPERATOR = #{operator},</if>
+            <if test="createDate != null">CREATE_DATE = #{createDate},</if>
+        </set>
+        <where><include refid="baseWhere"/></where>
+        </update>
+
+    <delete id="delete" parameterType="list">
+        delete from MIS_MERCHANT_BILL_DISCOUNT_LOG
+        <where><include refid="baseWhere"/></where>
+    </delete>
+</mapper>

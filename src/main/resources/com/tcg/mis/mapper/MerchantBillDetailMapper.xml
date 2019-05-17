@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MerchantBillDetailMapper">
+    <sql id="baseColumns">
+        ID,
+        BILL_MASTER_ID,
+        PRODUCT_NAME,
+        SUB_PRODUCT_NAME,
+        LOWEST_LIMIT_FEE,
+        NEGATIVE_ACCUMULATION,
+        RATE_LADDER,
+        GAME_LOSSES_AMOUNT,
+        GAME_WINNING_AMOUNT,
+        PLANT_BETTING_AMOUNT,
+        GAME_PNL_AMOUNT,
+        GROSS_WIN_AMOUNT,
+        RATES,
+        AMOUNT,
+        TCG_EXCHANGE_RATE,
+        SETTLEMENT_CURRENCY,
+        SETTLEMENT_AMOUNT,
+        STATUS,
+        CREATE_TIME,
+        CREATE_OPERATOR_NAME,
+        UPDATE_TIME,
+        UPDATE_OPERATOR_NAME
+    </sql>
+    <sql id="baseWhere">
+        <if test="id != null"> AND ID = #{id}</if>
+        <if test="billMasterId != null"> AND BILL_MASTER_ID = #{billMasterId}</if>
+        <if test="productName != null"> AND PRODUCT_NAME = #{productName}</if>
+        <if test="subProductName != null"> AND SUB_PRODUCT_NAME = #{subProductName}</if>
+        <if test="lowestLimitFee != null"> AND LOWEST_LIMIT_FEE = #{lowestLimitFee}</if>
+        <if test="negativeAccumulation != null"> AND NEGATIVE_ACCUMULATION = #{negativeAccumulation}</if>
+        <if test="rateLadder != null"> AND RATE_LADDER = #{rateLadder}</if>
+        <if test="gameLossesAmount != null"> AND GAME_LOSSES_AMOUNT = #{gameLossesAmount}</if>
+        <if test="gameWinningAmount != null"> AND GAME_WINNING_AMOUNT = #{gameWinningAmount}</if>
+        <if test="plantBettingAmount != null"> AND PLANT_BETTING_AMOUNT = #{plantBettingAmount}</if>
+        <if test="gamePnlAmount != null"> AND GAME_PNL_AMOUNT = #{gamePnlAmount}</if>
+        <if test="grossWinAmount != null"> AND GROSS_WIN_AMOUNT = #{grossWinAmount}</if>
+        <if test="rates != null"> AND RATES = #{rates}</if>
+        <if test="amount != null"> AND AMOUNT = #{amount}</if>
+        <if test="tcgExchangeRate != null"> AND TCG_EXCHANGE_RATE = #{tcgExchangeRate}</if>
+        <if test="settlementCurrency != null"> AND SETTLEMENT_CURRENCY = #{settlementCurrency}</if>
+        <if test="settlementAmount != null"> AND SETTLEMENT_AMOUNT = #{settlementAmount}</if>
+        <if test="status != null"> AND STATUS = #{status}</if>
+        <if test="createTime != null"> AND CREATE_TIME = #{createTime}</if>
+        <if test="createOperatorName != null"> AND CREATE_OPERATOR_NAME = #{createOperatorName}</if>
+        <if test="updateTime != null"> AND UPDATE_TIME = #{updateTime}</if>
+        <if test="updateOperatorName != null"> AND UPDATE_OPERATOR_NAME = #{updateOperatorName}</if>
+    </sql>
+
+
+
+    <select id="getList" resultType="MerchantBillDetail">
+        select
+        <include refid="baseColumns"/>
+        from MIS_MERCHANT_BILL_DETAIL
+        <where>
+            AND BILL_MASTER_ID = #{billMasterId}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="MerchantBillDetail">
+        insert into MIS_MERCHANT_BILL_DETAIL (
+            <if test="id != null">ID,</if>
+            <if test="billMasterId != null">BILL_MASTER_ID,</if>
+            <if test="productName != null">PRODUCT_NAME,</if>
+            <if test="subProductName != null">SUB_PRODUCT_NAME,</if>
+            <if test="lowestLimitFee != null">LOWEST_LIMIT_FEE,</if>
+            <if test="negativeAccumulation != null">NEGATIVE_ACCUMULATION,</if>
+            <if test="rateLadder != null">RATE_LADDER,</if>
+            <if test="gameLossesAmount != null">GAME_LOSSES_AMOUNT,</if>
+            <if test="gameWinningAmount != null">GAME_WINNING_AMOUNT,</if>
+            <if test="plantBettingAmount != null">PLANT_BETTING_AMOUNT,</if>
+            <if test="gamePnlAmount != null">GAME_PNL_AMOUNT,</if>
+            <if test="grossWinAmount != null">GROSS_WIN_AMOUNT,</if>
+            <if test="rates != null">RATES,</if>
+            <if test="amount != null">AMOUNT,</if>
+            <if test="tcgExchangeRate != null">TCG_EXCHANGE_RATE,</if>
+            <if test="settlementCurrency != null">SETTLEMENT_CURRENCY,</if>
+            <if test="settlementAmount != null">SETTLEMENT_AMOUNT,</if>
+            <if test="status != null">STATUS,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="createOperatorName != null">CREATE_OPERATOR_NAME,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+            <if test="updateOperatorName != null">UPDATE_OPERATOR_NAME</if>
+        ) values (
+            <if test="id != null">#{id},</if>
+            <if test="billMasterId != null">#{billMasterId},</if>
+            <if test="productName != null">#{productName},</if>
+            <if test="subProductName != null">#{subProductName},</if>
+            <if test="lowestLimitFee != null">#{lowestLimitFee},</if>
+            <if test="negativeAccumulation != null">#{negativeAccumulation},</if>
+            <if test="rateLadder != null">#{rateLadder},</if>
+            <if test="gameLossesAmount != null">#{gameLossesAmount},</if>
+            <if test="gameWinningAmount != null">#{gameWinningAmount},</if>
+            <if test="plantBettingAmount != null">#{plantBettingAmount},</if>
+            <if test="gamePnlAmount != null">#{gamePnlAmount},</if>
+            <if test="grossWinAmount != null">#{grossWinAmount},</if>
+            <if test="rates != null">#{rates},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="tcgExchangeRate != null">#{tcgExchangeRate},</if>
+            <if test="settlementCurrency != null">#{settlementCurrency},</if>
+            <if test="settlementAmount != null">#{settlementAmount},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createOperatorName != null">#{createOperatorName},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateOperatorName != null">#{updateOperatorName}</if>
+        )
+    </insert>
+
+    <update id="update" parameterType="MerchantBillDetail">
+        update MIS_MERCHANT_BILL_DETAIL
+        <set>
+            <if test="billMasterId != null">BILL_MASTER_ID = #{billMasterId},</if>
+            <if test="productName != null">PRODUCT_NAME = #{productName},</if>
+            <if test="subProductName != null">SUB_PRODUCT_NAME = #{subProductName},</if>
+            <if test="lowestLimitFee != null">LOWEST_LIMIT_FEE = #{lowestLimitFee},</if>
+            <if test="negativeAccumulation != null">NEGATIVE_ACCUMULATION = #{negativeAccumulation},</if>
+            <if test="rateLadder != null">RATE_LADDER = #{rateLadder},</if>
+            <if test="gameLossesAmount != null">GAME_LOSSES_AMOUNT = #{gameLossesAmount},</if>
+            <if test="gameWinningAmount != null">GAME_WINNING_AMOUNT = #{gameWinningAmount},</if>
+            <if test="plantBettingAmount != null">PLANT_BETTING_AMOUNT = #{plantBettingAmount},</if>
+            <if test="gamePnlAmount != null">GAME_PNL_AMOUNT = #{gamePnlAmount},</if>
+            <if test="grossWinAmount != null">GROSS_WIN_AMOUNT = #{grossWinAmount},</if>
+            <if test="rates != null">RATES = #{rates},</if>
+            <if test="amount != null">AMOUNT = #{amount},</if>
+            <if test="tcgExchangeRate != null">TCG_EXCHANGE_RATE = #{tcgExcahngeRate},</if>
+            <if test="settlementCurrency != null">SETTLEMENT_CURRENCY = #{settlementCurrency},</if>
+            <if test="settlementAmount != null">SETTLEMENT_AMOUNT = #{settlementAmount},</if>
+            <if test="status != null">STATUS = #{status},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="createOperatorName != null">CREATE_OPERATOR_NAME = #{createOperatorName},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+            <if test="updateOperatorName != null">UPDATE_OPERATOR_NAME = #{updateOperatorName},</if>
+        </set>
+        <where><include refid="baseWhere"/></where>
+        </update>
+
+</mapper>

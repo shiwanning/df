@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisMerchantChargeCreditReviewMapper">
+  	
+  	<sql id="BaseColumns">
+        ${alias}.RID,
+		${alias}.MERCHANT_CODE,
+		${alias}.LEVER_MULTIPLIER,
+		${alias}.MODIFY_LEVER_MULTIPLIER,
+		${alias}.STATUS,
+		${alias}.REMARK,
+		${alias}.CREATE_OPERATOR_NAME,
+		${alias}.UPDATE_OPERATOR_NAME,
+		${alias}.CREATE_TIME,
+		${alias}.UPDATE_TIME
+    </sql>
+    
+    <sql id="BaseColumnsNoAlias">
+        RID,
+		MERCHANT_CODE,
+		LEVER_MULTIPLIER,
+		MODIFY_LEVER_MULTIPLIER,
+		STATUS,
+		REMARK,
+		CREATE_OPERATOR_NAME,
+		UPDATE_OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+    
+    <insert id="insert">
+        <selectKey keyProperty="rid" resultType="long" order="BEFORE">
+            SELECT SEQ_MIS_MERCHANT_CHARGE_CREDIT_REVIEW.nextval from dual
+        </selectKey>
+        INSERT INTO MIS_MERCHANT_CHARGE_CREDIT_REVIEW(<include refid="BaseColumnsNoAlias" />) 
+        VALUES (#{rid}, #{merchantCode}, #{leverMultiplier}, #{modifyLeverMultiplier}, #{status}, #{remark,jdbcType=VARCHAR}, #{createOperatorName}, #{updateOperatorName}, SYSTIMESTAMP, SYSTIMESTAMP)
+    </insert>
+    
+    <update id="update">
+        UPDATE MIS_MERCHANT_CHARGE_CREDIT_REVIEW SET
+			MERCHANT_CODE = #{merchantCode},
+			LEVER_MULTIPLIER = #{leverMultiplier},
+			MODIFY_LEVER_MULTIPLIER = #{modifyLeverMultiplier},
+			STATUS = #{status},
+			REMARK = #{remark, jdbcType=VARCHAR},
+			UPDATE_OPERATOR_NAME = #{updateOperatorName},
+			UPDATE_TIME = SYSTIMESTAMP
+		WHERE RID = #{rid}
+    </update>
+
+    <select id="findOne" resultType="MisMerchantChargeCreditReview">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_CREDIT_REVIEW mc 
+    	<where> 
+    		AND rid = #{rid}
+    	</where>
+    </select>
+    
+    <select id="findUnReviewById" resultType="MisMerchantChargeCreditReview">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_CREDIT_REVIEW mc 
+    	<where> 
+    		AND rid = #{rid}
+    		AND status = 0
+    	</where>
+    </select>
+    
+    <select id="findByCondition" resultType="MisMerchantChargeCreditReview">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_CREDIT_REVIEW mc 
+    	<where> 
+	    	<if test="condition.merchantCode != null">
+	    		AND mc.MERCHANT_CODE = #{condition.merchantCode}
+	    	</if>
+	    	<if test="condition.leverMultiplier != null">
+	    		AND mc.LEVER_MULTIPLIER = #{condition.leverMultiplier}
+	    	</if>
+	    	<if test="condition.operator != null">
+	    		AND mc.CREATE_OPERATOR_NAME = #{condition.operator}
+	    	</if>
+	    	<if test="condition.startDate != null and condition.endDate != null">
+	    		AND mc.CREATE_TIME BETWEEN #{condition.startDate} AND #{condition.endDate}
+	    	</if>
+	    	<if test="condition.status != null">
+	    		AND mc.STATUS = #{condition.status}
+	    	</if>
+    	</where>
+    </select>
+    
+    <select id="findLastUnReviewByMerchantCode" resultType="MisMerchantChargeCreditReview">
+        select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+        from MIS_MERCHANT_CHARGE_CREDIT_REVIEW mc 
+        <where> 
+            AND MERCHANT_CODE = #{merchantCode}
+            AND status = 0
+        </where>
+        order by create_time desc
+        FETCH FIRST 1 ROW ONLY
+    </select>
+    
+    
+</mapper>

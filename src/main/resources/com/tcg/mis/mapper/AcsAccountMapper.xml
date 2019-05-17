@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.AcsAccountMapper">
+
+    <select id="findAcsAccount" resultType="com.tcg.mis.model.vo.AcsAccount">
+        select
+            aa.*,
+            tlat.account_type_name
+        from ACS_ACCOUNT aa
+        inner join US_CUSTOMER uc on uc.customer_id = aa.customer_id
+        left join T_LOBBY_ACCOUNT_TYPE tlat on tlat.account_type_id = aa.account_type_id
+        <where>
+            <if test="condition.customerId != null">
+              and aa.customer_id = #{condition.customerId}
+            </if>
+            <if test="condition.accountTypeId != null">
+              and aa.account_type_id = #{condition.accountTypeId}
+            </if>
+            <if test="condition.accountId != null">
+                and aa.account_id = #{condition.accountId}
+            </if>
+            <if test="condition.customerName != null">
+                and uc.customer_name = #{condition.customerName}
+            </if>
+            and aa.ACTIVE_FLAG = 1
+        </where>
+    </select>
+
+    <select id="findMerchantProductWalletInfo" resultType="com.tcg.mis.model.vo.MerchantProductWalletTo">
+        select
+        tlwm.account_type_name,
+        tlwm.display_name,
+        aa.balance,
+        tlwm.account_type_id
+        from T_LOBBY_WALLET_MANAGER tlwm
+        inner join T_LOBBY_ACCOUNT_TYPE tlat on tlat.account_type_id = tlwm.account_type_id and tlat.status = 1
+        inner join ACS_ACCOUNT aa on aa.customer_id = tlwm.customer_id and aa.ACCOUNT_TYPE_ID = tlwm.account_type_id and aa.active_flag = 1 and aa.account_type_id != 5
+        where tlwm.merchant_core  = #{merchantCode}
+        and tlwm.is_use = 1
+    </select>
+
+    <select id="findMerchantWallet" resultType="com.tcg.mis.model.vo.MerchantProductWalletTo">
+        select
+        tlwm.account_type_name,
+        aa.balance,
+        aa.account_type_id
+        from US_MERCHANT um
+        inner join ACS_ACCOUNT aa on um.customer_id = aa.customer_id
+        left join T_LOBBY_ACCOUNT_TYPE tlwm on aa.account_type_id = tlwm.account_type_id
+        where um.merchant_code  = #{merchantCode}
+    </select>
+
+    <select id="findAcsAccounts" resultType="com.tcg.mis.model.vo.AcsAccount">
+        select *
+        from ACS_ACCOUNT
+        where customer_id = #{customerId}
+    </select>
+
+</mapper>

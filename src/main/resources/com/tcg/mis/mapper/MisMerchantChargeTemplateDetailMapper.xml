@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisMerchantChargeTemplateDetailMapper">
+  	
+  	<sql id="BaseColumns">
+        ${alias}.RID,
+		${alias}.TEMPLATE_RID,
+		${alias}.DETAIL_TYPE,
+		${alias}.CODE,
+		${alias}.PRODUCT,
+		${alias}.SUB_PRODUCT,
+		${alias}.RANGE_RATE_FLAG,
+		${alias}.WIN_LOSS_CALCULATE_FLAG,
+		${alias}.ACCUMULATE_NEGATIVE,
+		${alias}.RATE_TYPE,
+		${alias}.RATE,
+		${alias}.CHARGE,
+		${alias}.REMARK,
+		${alias}.CREATE_OPERATOR_NAME,
+		${alias}.UPDATE_OPERATOR_NAME,
+		${alias}.CREATE_TIME,
+		${alias}.UPDATE_TIME
+    </sql>
+    
+    <sql id="BaseColumnsNoAlias">
+        RID,
+		TEMPLATE_RID,
+		DETAIL_TYPE,
+		CODE,
+		PRODUCT,
+		SUB_PRODUCT,
+		RANGE_RATE_FLAG,
+		WIN_LOSS_CALCULATE_FLAG,
+		ACCUMULATE_NEGATIVE,
+		RATE_TYPE,
+		RATE,
+		CHARGE,
+		REMARK,
+		CREATE_OPERATOR_NAME,
+		UPDATE_OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+
+    <insert id="insert">
+        <selectKey keyProperty="rid" resultType="long" order="BEFORE">
+            SELECT SEQ_MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL.nextval from dual
+        </selectKey>
+        INSERT INTO MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL(<include refid="BaseColumnsNoAlias" />) 
+        VALUES (
+        #{rid, jdbcType=DECIMAL},
+        #{templateRid, jdbcType=DECIMAL},
+        #{detailType, jdbcType=DECIMAL},
+        #{code, jdbcType=VARCHAR},
+        #{product, jdbcType=VARCHAR},
+        #{subProduct, jdbcType=VARCHAR},
+        #{rangeRateFlag, jdbcType=DECIMAL},
+        #{winLossCalculateFlag, jdbcType=DECIMAL},
+        #{accumulateNegative, jdbcType=DECIMAL}, 
+        #{rateType, jdbcType=DECIMAL},
+        #{rate, jdbcType=DECIMAL},
+        #{charge, jdbcType=DECIMAL},
+        #{remark, jdbcType=VARCHAR},
+        #{createOperatorName, jdbcType=VARCHAR},
+        #{updateOperatorName, jdbcType=VARCHAR},
+        SYSTIMESTAMP,
+        SYSTIMESTAMP)
+    </insert>
+    
+    <update id="update">
+        UPDATE MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL SET
+			TEMPLATE_RID = #{templateRid, jdbcType=DECIMAL},
+			DETAIL_TYPE = #{detailType, jdbcType=DECIMAL},
+			CODE = #{code},
+			PRODUCT = #{product},
+			SUB_PRODUCT = #{subProduct},
+			RANGE_RATE_FLAG = #{rangeRateFlag, jdbcType=DECIMAL},
+			WIN_LOSS_CALCULATE_FLAG = #{winLossCalculateFlag, jdbcType=DECIMAL},
+			ACCUMULATE_NEGATIVE = #{accumulateNegative, jdbcType=DECIMAL},
+			RATE_TYPE = #{rateType, jdbcType=DECIMAL},
+			RATE = #{rate, jdbcType=DECIMAL},
+			CHARGE = #{charge, jdbcType=DECIMAL},
+			REMARK = #{remark, jdbcType=VARCHAR},
+			UPDATE_OPERATOR_NAME = #{updateOperatorName, jdbcType=VARCHAR},
+			UPDATE_TIME = SYSTIMESTAMP
+		WHERE RID = #{rid, jdbcType=DECIMAL}
+    </update>
+    
+    <delete id="deleteByTemplateRid">
+        delete from MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL where template_rid = #{templateRid}
+    </delete>
+    
+    <select id="findProductByMerchantCode" resultType="MisMerchantChargeTemplateDetail">
+    	select <include refid="BaseColumns" ><property name="alias" value="md"/></include> 
+    	from MIS_MERCHANT_CHARGE_CONFIG mc
+    	INNER JOIN MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL md ON mc.template_rid = md.template_rid
+    	<where> 
+    		AND mc.MERCHANT_CODE = #{merchantCode}
+    		AND md.DETAIL_TYPE >= 3
+    	</where>
+    	order by md.CREATE_TIME desc
+    </select>
+    
+    <select id="findByDetailTypeAndCode" resultType="MisMerchantChargeTemplateDetail">
+    	select <include refid="BaseColumns" ><property name="alias" value="md"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL md
+    	<where> 
+    		AND md.CODE = #{code}
+    		AND md.DETAIL_TYPE = #{detailType}
+    	</where>
+    </select>
+    
+    <select id="findByTemplateRid" resultType="MisMerchantChargeTemplateDetail">
+    	select <include refid="BaseColumns" ><property name="alias" value="md"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL md
+    	<where> 
+    		AND md.TEMPLATE_RID = #{templateRid}
+    	</where>
+    	order by rid
+    </select>
+    
+    <select id="findFirstByTemplateRid" resultType="MisMerchantChargeTemplateDetail">
+    	select <include refid="BaseColumns" ><property name="alias" value="md"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL md
+    	<where> 
+    		AND md.TEMPLATE_RID = #{templateRid}
+    		AND rownum = 1
+    	</where>
+    	order by rid
+    </select>
+    
+</mapper>

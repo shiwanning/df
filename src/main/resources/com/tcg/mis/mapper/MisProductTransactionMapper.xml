@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisProductTransactionMapper">
+  <resultMap id="BaseResultMap" type="com.tcg.mis.model.MisProductTransaction">
+    <id column="RID" jdbcType="DECIMAL" property="rid" />
+    <result column="ORDER_NO" jdbcType="VARCHAR" property="orderNo" />
+    <result column="MERCHANT_CODE" jdbcType="VARCHAR" property="merchantCode" />
+    <result column="PRODUCT" jdbcType="VARCHAR" property="product" />
+    <result column="SUB_PRODUCT" jdbcType="VARCHAR" property="subProduct" />
+    <result column="PRODUCT_ACCOUNT_ID" jdbcType="DECIMAL" property="productAccountId" />
+    <result column="PRODUCT_BALANCE" jdbcType="DECIMAL" property="productBalance" />
+    <result column="PROCUCT_AMOUNT" jdbcType="DECIMAL" property="procuctAmount" />
+    <result column="MAIN_ACCOUNT_ID" jdbcType="DECIMAL" property="mainAccountId" />
+    <result column="MAIN_BALANCE" jdbcType="DECIMAL" property="mainBalance" />
+    <result column="MAIN_AMOUNT" jdbcType="DECIMAL" property="mainAmount" />
+    <result column="RATE" jdbcType="DECIMAL" property="rate" />
+    <result column="TX_TYPE" jdbcType="DECIMAL" property="txType" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_OPERATOR_NAME" jdbcType="VARCHAR" property="createOperatorName" />
+    <result column="UPDATE_OPERATOR_NAME" jdbcType="VARCHAR" property="updateOperatorName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="TASK_ID" jdbcType="DECIMAL" property="taskId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RID, ORDER_NO, MERCHANT_CODE, PRODUCT, SUB_PRODUCT, PRODUCT_ACCOUNT_ID, PRODUCT_BALANCE, 
+    PROCUCT_AMOUNT, MAIN_ACCOUNT_ID, MAIN_BALANCE, MAIN_AMOUNT, RATE, TX_TYPE, STATUS, 
+    REMARK, CREATE_OPERATOR_NAME, UPDATE_OPERATOR_NAME, CREATE_TIME, UPDATE_TIME, TASK_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MIS_PRODUCT_TRANSACTION
+    where RID = #{rid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from MIS_PRODUCT_TRANSACTION
+    where RID = #{rid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tcg.mis.model.MisProductTransaction">
+    insert into MIS_PRODUCT_TRANSACTION (ORDER_NO, MERCHANT_CODE, PRODUCT, 
+      SUB_PRODUCT, PRODUCT_ACCOUNT_ID, PRODUCT_BALANCE, 
+      PROCUCT_AMOUNT, MAIN_ACCOUNT_ID, MAIN_BALANCE, 
+      MAIN_AMOUNT, RATE, TX_TYPE, 
+      STATUS, REMARK, CREATE_OPERATOR_NAME, 
+      UPDATE_OPERATOR_NAME, CREATE_TIME, UPDATE_TIME, 
+      TASK_ID)
+    values (#{orderNo,jdbcType=VARCHAR}, #{merchantCode,jdbcType=VARCHAR}, #{product,jdbcType=VARCHAR}, 
+      #{subProduct,jdbcType=VARCHAR}, #{productAccountId,jdbcType=DECIMAL}, #{productBalance,jdbcType=DECIMAL}, 
+      #{procuctAmount,jdbcType=DECIMAL}, #{mainAccountId,jdbcType=DECIMAL}, #{mainBalance,jdbcType=DECIMAL}, 
+      #{mainAmount,jdbcType=DECIMAL}, #{rate,jdbcType=DECIMAL}, #{txType,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{createOperatorName,jdbcType=VARCHAR}, 
+      #{updateOperatorName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{taskId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tcg.mis.model.MisProductTransaction">
+    insert into MIS_PRODUCT_TRANSACTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        ORDER_NO,
+      </if>
+      <if test="merchantCode != null">
+        MERCHANT_CODE,
+      </if>
+      <if test="product != null">
+        PRODUCT,
+      </if>
+      <if test="subProduct != null">
+        SUB_PRODUCT,
+      </if>
+      <if test="productAccountId != null">
+        PRODUCT_ACCOUNT_ID,
+      </if>
+      <if test="productBalance != null">
+        PRODUCT_BALANCE,
+      </if>
+      <if test="procuctAmount != null">
+        PROCUCT_AMOUNT,
+      </if>
+      <if test="mainAccountId != null">
+        MAIN_ACCOUNT_ID,
+      </if>
+      <if test="mainBalance != null">
+        MAIN_BALANCE,
+      </if>
+      <if test="mainAmount != null">
+        MAIN_AMOUNT,
+      </if>
+      <if test="rate != null">
+        RATE,
+      </if>
+      <if test="txType != null">
+        TX_TYPE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME,
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCode != null">
+        #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="product != null">
+        #{product,jdbcType=VARCHAR},
+      </if>
+      <if test="subProduct != null">
+        #{subProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="productAccountId != null">
+        #{productAccountId,jdbcType=DECIMAL},
+      </if>
+      <if test="productBalance != null">
+        #{productBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="procuctAmount != null">
+        #{procuctAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="mainAccountId != null">
+        #{mainAccountId,jdbcType=DECIMAL},
+      </if>
+      <if test="mainBalance != null">
+        #{mainBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="mainAmount != null">
+        #{mainAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null">
+        #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="txType != null">
+        #{txType,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperatorName != null">
+        #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tcg.mis.model.MisProductTransaction">
+    update MIS_PRODUCT_TRANSACTION
+    <set>
+      <if test="orderNo != null">
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCode != null">
+        MERCHANT_CODE = #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="product != null">
+        PRODUCT = #{product,jdbcType=VARCHAR},
+      </if>
+      <if test="subProduct != null">
+        SUB_PRODUCT = #{subProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="productAccountId != null">
+        PRODUCT_ACCOUNT_ID = #{productAccountId,jdbcType=DECIMAL},
+      </if>
+      <if test="productBalance != null">
+        PRODUCT_BALANCE = #{productBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="procuctAmount != null">
+        PROCUCT_AMOUNT = #{procuctAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="mainAccountId != null">
+        MAIN_ACCOUNT_ID = #{mainAccountId,jdbcType=DECIMAL},
+      </if>
+      <if test="mainBalance != null">
+        MAIN_BALANCE = #{mainBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="mainAmount != null">
+        MAIN_AMOUNT = #{mainAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null">
+        RATE = #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="txType != null">
+        TX_TYPE = #{txType,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskId != null">
+        TASK_ID = #{taskId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tcg.mis.model.MisProductTransaction">
+    update MIS_PRODUCT_TRANSACTION
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      MERCHANT_CODE = #{merchantCode,jdbcType=VARCHAR},
+      PRODUCT = #{product,jdbcType=VARCHAR},
+      SUB_PRODUCT = #{subProduct,jdbcType=VARCHAR},
+      PRODUCT_ACCOUNT_ID = #{productAccountId,jdbcType=DECIMAL},
+      PRODUCT_BALANCE = #{productBalance,jdbcType=DECIMAL},
+      PROCUCT_AMOUNT = #{procuctAmount,jdbcType=DECIMAL},
+      MAIN_ACCOUNT_ID = #{mainAccountId,jdbcType=DECIMAL},
+      MAIN_BALANCE = #{mainBalance,jdbcType=DECIMAL},
+      MAIN_AMOUNT = #{mainAmount,jdbcType=DECIMAL},
+      RATE = #{rate,jdbcType=DECIMAL},
+      TX_TYPE = #{txType,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      TASK_ID = #{taskId,jdbcType=DECIMAL}
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+
+    <select id="findByCondition"  resultType="com.tcg.mis.model.MisProductTransaction">
+        select *
+        from MIS_PRODUCT_TRANSACTION
+        <where>
+            <if test="condition.orderNo != null">
+                and ORDER_NO = #{condition.orderNo}
+            </if>
+            <if test="condition.merchantCode != null">
+                and MERCHANT_CODE = #{condition.merchantCode}
+            </if>
+            <if test="condition.product != null">
+                and PRODUCT= #{condition.product}
+            </if>
+            <if test="condition.subProduct != null">
+                and SUB_PRODUCT = #{condition.subProduct}
+            </if>
+            <if test="condition.txType != null">
+                and TX_TYPE = #{condition.txType}
+            </if>
+            <if test="condition.status != null">
+                and STATUS = #{condition.status}
+            </if>
+            <if test="condition.startDate != null">
+                and CREATE_TIME >= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null">
+                and CREATE_TIME &lt;= #{condition.endDate}
+            </if>
+            <if test="condition.products != null and condition.products.size() > 0">
+                AND PRODUCT IN
+                <foreach item="item" collection="condition.products" separator="," open="(" close=")" index="">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+
+    </select>
+</mapper>

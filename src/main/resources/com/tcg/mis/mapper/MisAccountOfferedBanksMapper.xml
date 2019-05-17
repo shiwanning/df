@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisAccountOfferedBanksMapper">
+  <resultMap id="BaseResultMap" type="com.tcg.mis.model.MisAccountOfferedBanks">
+    <id column="RID" jdbcType="DECIMAL" property="rid" />
+    <result column="BANK_ACCT_RID" jdbcType="DECIMAL" property="bankAcctRid" />
+    <result column="BANK_TYPE" jdbcType="VARCHAR" property="bankType" />
+    <result column="MERCHANT_RATE" jdbcType="DECIMAL" property="merchantRate" />
+    <result column="MERCHANT_MIN_AMOUNT" jdbcType="DECIMAL" property="merchantMinAmount" />
+    <result column="MERCHANT_MAX_AMOUNT" jdbcType="DECIMAL" property="merchantMaxAmount" />
+    <result column="BANK_FEE_RATE" jdbcType="DECIMAL" property="bankFeeRate" />
+    <result column="BANK_MIN_FEE" jdbcType="DECIMAL" property="bankMinFee" />
+    <result column="BANK_MAX_FEE" jdbcType="DECIMAL" property="bankMaxFee" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="CREATE_OPERATOR_NAME" jdbcType="VARCHAR" property="createOperatorName" />
+    <result column="UPDATE_OPERATOR_NAME" jdbcType="VARCHAR" property="updateOperatorName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="TX_MAX_AMOUNT" jdbcType="DECIMAL" property="txMaxAmount" />
+    <result column="TX_MIN_AMOUNT" jdbcType="DECIMAL" property="txMinAmount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RID, BANK_ACCT_RID, BANK_TYPE, MERCHANT_RATE, MERCHANT_MIN_AMOUNT, MERCHANT_MAX_AMOUNT, 
+    BANK_FEE_RATE, BANK_MIN_FEE, BANK_MAX_FEE, STATUS, CREATE_OPERATOR_NAME, UPDATE_OPERATOR_NAME,
+    CREATE_TIME, UPDATE_TIME, TX_MAX_AMOUNT, TX_MIN_AMOUNT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MIS_ACCOUNT_OFFERED_BANKS
+    where RID = #{rid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from MIS_ACCOUNT_OFFERED_BANKS
+    where RID = #{rid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tcg.mis.model.MisAccountOfferedBanks">
+    insert into MIS_ACCOUNT_OFFERED_BANKS (RID, BANK_ACCT_RID, BANK_TYPE, 
+      MERCHANT_RATE, MERCHANT_MIN_AMOUNT, MERCHANT_MAX_AMOUNT, 
+      BANK_FEE_RATE, BANK_MIN_FEE, BANK_MAX_FEE, 
+      STATUS, CREATE_OPERATOR_NAME, UPDATE_OPERATOR_NAME,
+      CREATE_TIME, UPDATE_TIME, TX_MAX_AMOUNT, 
+      TX_MIN_AMOUNT)
+    values (#{rid,jdbcType=DECIMAL}, #{bankAcctRid,jdbcType=DECIMAL}, #{bankType,jdbcType=VARCHAR}, 
+      #{merchantRate,jdbcType=DECIMAL}, #{merchantMinAmount,jdbcType=DECIMAL}, #{merchantMaxAmount,jdbcType=DECIMAL}, 
+      #{bankFeeRate,jdbcType=DECIMAL}, #{bankMinFee,jdbcType=DECIMAL}, #{bankMaxFee,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{createOperatorName,jdbcType=VARCHAR}, #{updateOperatorName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{txMaxAmount,jdbcType=DECIMAL}, 
+      #{txMinAmount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tcg.mis.model.MisAccountOfferedBanks">
+    insert into MIS_ACCOUNT_OFFERED_BANKS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        RID,
+      </if>
+      <if test="bankAcctRid != null">
+        BANK_ACCT_RID,
+      </if>
+      <if test="bankType != null">
+        BANK_TYPE,
+      </if>
+      <if test="merchantRate != null">
+        MERCHANT_RATE,
+      </if>
+      <if test="merchantMinAmount != null">
+        MERCHANT_MIN_AMOUNT,
+      </if>
+      <if test="merchantMaxAmount != null">
+        MERCHANT_MAX_AMOUNT,
+      </if>
+      <if test="bankFeeRate != null">
+        BANK_FEE_RATE,
+      </if>
+      <if test="bankMinFee != null">
+        BANK_MIN_FEE,
+      </if>
+      <if test="bankMaxFee != null">
+        BANK_MAX_FEE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME,
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="txMaxAmount != null">
+        TX_MAX_AMOUNT,
+      </if>
+      <if test="txMinAmount != null">
+        TX_MIN_AMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=DECIMAL},
+      </if>
+      <if test="bankAcctRid != null">
+        #{bankAcctRid,jdbcType=DECIMAL},
+      </if>
+      <if test="bankType != null">
+        #{bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantRate != null">
+        #{merchantRate,jdbcType=DECIMAL},
+      </if>
+      <if test="merchantMinAmount != null">
+        #{merchantMinAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="merchantMaxAmount != null">
+        #{merchantMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="bankFeeRate != null">
+        #{bankFeeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="bankMinFee != null">
+        #{bankMinFee,jdbcType=DECIMAL},
+      </if>
+      <if test="bankMaxFee != null">
+        #{bankMaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createOperatorName != null">
+        #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="txMaxAmount != null">
+        #{txMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="txMinAmount != null">
+        #{txMinAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tcg.mis.model.MisAccountOfferedBanks">
+    update MIS_ACCOUNT_OFFERED_BANKS
+    <set>
+      <if test="bankAcctRid != null">
+        BANK_ACCT_RID = #{bankAcctRid,jdbcType=DECIMAL},
+      </if>
+      <if test="bankType != null">
+        BANK_TYPE = #{bankType,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantRate != null">
+        MERCHANT_RATE = #{merchantRate,jdbcType=DECIMAL},
+      </if>
+      <if test="merchantMinAmount != null">
+        MERCHANT_MIN_AMOUNT = #{merchantMinAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="merchantMaxAmount != null">
+        MERCHANT_MAX_AMOUNT = #{merchantMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="bankFeeRate != null">
+        BANK_FEE_RATE = #{bankFeeRate,jdbcType=DECIMAL},
+      </if>
+      <if test="bankMinFee != null">
+        BANK_MIN_FEE = #{bankMinFee,jdbcType=DECIMAL},
+      </if>
+      <if test="bankMaxFee != null">
+        BANK_MAX_FEE = #{bankMaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="txMaxAmount != null">
+        TX_MAX_AMOUNT = #{txMaxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="txMinAmount != null">
+        TX_MIN_AMOUNT = #{txMinAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tcg.mis.model.MisAccountOfferedBanks">
+    update MIS_ACCOUNT_OFFERED_BANKS
+    set BANK_ACCT_RID = #{bankAcctRid,jdbcType=DECIMAL},
+      BANK_TYPE = #{bankType,jdbcType=VARCHAR},
+      MERCHANT_RATE = #{merchantRate,jdbcType=DECIMAL},
+      MERCHANT_MIN_AMOUNT = #{merchantMinAmount,jdbcType=DECIMAL},
+      MERCHANT_MAX_AMOUNT = #{merchantMaxAmount,jdbcType=DECIMAL},
+      BANK_FEE_RATE = #{bankFeeRate,jdbcType=DECIMAL},
+      BANK_MIN_FEE = #{bankMinFee,jdbcType=DECIMAL},
+      BANK_MAX_FEE = #{bankMaxFee,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      TX_MAX_AMOUNT = #{txMaxAmount,jdbcType=DECIMAL},
+      TX_MIN_AMOUNT = #{txMinAmount,jdbcType=DECIMAL}
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+
+    <select id="findByAcctId" resultType="com.tcg.mis.model.MisAccountOfferedBanks" >
+        SELECT
+        OB.RID,
+        OB.BANK_ACCT_RID,
+        OB.BANK_TYPE,
+        OB.MERCHANT_RATE,
+        OB.MERCHANT_MIN_AMOUNT,
+        OB.MERCHANT_MAX_AMOUNT,
+        OB.BANK_FEE_RATE,
+        OB.BANK_MIN_FEE,
+        OB.BANK_MAX_FEE,
+        OB.STATUS,
+        OB.CREATE_OPERATOR_NAME,
+        OB.UPDATE_OPERATOR_NAME,
+        OB.CREATE_TIME,
+        OB.UPDATE_TIME,
+        OB.TX_MAX_AMOUNT,
+        OB.TX_MIN_AMOUNT
+        FROM TCG_MISDB.MIS_ACCOUNT_OFFERED_BANKS OB
+        <where>
+            <if test="acctId != null">
+                AND BANK_ACCT_RID = #{acctId}
+            </if>
+            <if test="bankType != null">
+                AND BANK_TYPE = #{bankType}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAllPaymentTypes" resultType="java.lang.String">
+      select distinct maob.BANK_TYPE
+      from MIS_ACCOUNT_OFFERED_BANKS maob
+      inner join MIS_BANK_ACCTS mba on maob.BANK_ACCT_RID = mba.RID and mba.STATUS = 0
+      where maob.BANK_TYPE != 'WD'
+      and maob.STATUS = 0
+    </select>
+
+    <select id="findByOrderNo" resultType="com.tcg.mis.model.MisAccountOfferedBanks">
+        SELECT
+        maob.*
+        FROM
+        TCG_MISDB.MIS_RECHARGE_DETAIL URD
+        inner join MIS_ACCOUNT_OFFERED_BANKS maob on maob.BANK_ACCT_RID = URD.BANK_ACCT_RID and maob.BANK_TYPE = URD.BANK_TYPE
+        WHERE URD.ORDER_NO = #{orderNo}
+    </select>
+
+</mapper>

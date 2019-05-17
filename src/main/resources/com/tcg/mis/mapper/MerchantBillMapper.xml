@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MerchantBillMapper">
+    <sql id="baseColumns">
+        MMB.BILL_MASTER_ID,
+        MMB.BILL_NO,
+        MMB.BALANCE_DATE,
+        MMB.BILL_MONTHLY,
+        MMB.MERCHANT_CODE,
+        MMB.CUSTOMER_NO,
+        MMB.BILL_AMOUNT,
+        MMB.PAID_AMOUNT,
+        MMB.UNPAID_AMOUNT,
+        MMB.DISCOUNT_AMOUNT,
+        MMB.COMMISSION,
+        MMB.REFER,
+        MMB.CURRENCY,
+        MMB.TIME_LIMIT,
+        MMB.STATUS,
+        MMB.REMARK,
+        MMB.OVERDUE,
+        MMB.FINANCE_MANAGER_EMAIL,
+        MMB.START_DATE,
+        MMB.END_DATE,
+        MMB.CREATE_TIME,
+        MMB.CREATE_OPERATOR_NAME,
+        MMB.UPDATE_TIME,
+        MMB.UPDATE_OPERATOR_NAME
+    </sql>
+    <sql id="baseWhere">
+        <if test="billMasterId != null">AND BILL_MASTER_ID = #{billMasterId}</if>
+        <if test="billNo != null">AND BILL_NO = #{billNo}</if>
+        <if test="balanceDate != null">AND BALANCE_DATE = #{balanceDate}</if>
+        <if test="billMonthly != null">AND BILL_MONTHLY = #{billMonthly}</if>
+        <if test="merchantCode != null">AND MERCHANT_CODE = #{merchantCode}</if>
+        <if test="customerNo != null">AND CUSTOMER_NO = #{customerNo}</if>
+        <if test="billAmount != null">AND BILL_AMOUNT = #{billAmount}</if>
+        <if test="paidAmount != null">AND PAID_AMOUNT = #{paidAmount}</if>
+        <if test="unpaidAmount != null">AND UNPAID_AMOUNT = #{unpaidAmount}</if>
+        <if test="commission != null">AND COMMISSION = #{commission}</if>
+        <if test="refer != null">AND REFER = #{refer}</if>
+        <if test="currency != null">AND CURRENCY = #{currency}</if>
+        <if test="timeLimit != null">AND TIME_LIMIT = #{timeLimit}</if>
+        <if test="status != null">AND STATUS = #{status}</if>
+        <if test="discountAmount != null">AND DISCOUNT_AMOUNT = #{discountAmount}</if>
+        <if test="overdue != null">AND OVERDUE = #{overdue}</if>
+        <if test="remark != null">AND REMARK = #{remark}</if>
+        <if test="financeManagerEmail != null">AND FINANCE_MANAGER_EMAIL = #{financeManagerEmail}</if>
+        <if test="startDate != null">AND START_DATE = #{startDate}</if>
+        <if test="endDate != null">AND END_DATE = #{endDate}</if>
+        <if test="createTime != null">AND CREATE_TIME = #{createTime}</if>
+        <if test="createOperatorName != null">AND CREATE_OPERATOR_NAME = #{createOperatorName}</if>
+        <if test="updateTime != null">AND UPDATE_TIME = #{updateTime}</if>
+        <if test="updateOperatorName != null">AND UPDATE_OPERATOR_NAME = #{updateOperatorName}</if>
+    </sql>
+
+
+    <select id="getList" resultType="MerchantBill">
+        select
+        <include refid="baseColumns"/>,
+        UM.MERCHANT_DESC AS MERCHANT_NAME
+        from MIS_MERCHANT_BILL MMB LEFT JOIN US_MERCHANT UM ON MMB.MERCHANT_CODE = UM.MERCHANT_CODE
+        <where>
+            <if test="billNo != null and billNo !=''">
+                AND BILL_NO = #{billNo}
+            </if>
+            <if test="merchantCode !=null and merchantCode !=''">
+                AND MMB.MERCHANT_CODE = #{merchantCode}
+            </if>
+            <if test="billDate !=null">
+                AND MMB.START_DATE <![CDATA[<=]]>#{billDate}
+                AND MMB.END_DATE <![CDATA[<=]]>#{billDate}
+            </if>
+            <if test="status != null">
+                AND MMB.STATUS IN
+                <foreach collection="status" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="MerchantBill">
+        insert into MIS_MERCHANT_BILL (
+        <if test="billMasterId != null">BILL_MASTER_ID,</if>
+        <if test="billNo != null">BILL_NO,</if>
+        <if test="balanceDate != null">BALANCE_DATE,</if>
+        <if test="billMonthly != null">BILL_MONTHLY,</if>
+        <if test="merchantCode != null">MERCHANT_CODE,</if>
+        <if test="customerNo != null">CUSTOMER_NO,</if>
+        <if test="billAmount != null">BILL_AMOUNT,</if>
+        <if test="paidAmount != null">PAID_AMOUNT,</if>
+        <if test="unpaidAmount != null">UNPAID_AMOUNT,</if>
+        <if test="discountAmount != null">DISCOUNT_AMOUNT,</if>
+        <if test="commission != null">COMMISSION,</if>
+        <if test="refer != null">REFER,</if>
+        <if test="currency != null">CURRENCY,</if>
+        <if test="timeLimit != null">TIME_LIMIT,</if>
+        <if test="status != null">STATUS,</if>
+        <if test="remark != null">REMARK,</if>
+        <if test="overdue != null">OVERDUE,</if>
+        <if test="financeManagerEmail != null">FINANCE_MANAGER_EMAIL,</if>
+        <if test="startDate != null">START_DATE,</if>
+        <if test="endDate != null">END_DATE,</if>
+        <if test="createTime != null">CREATE_TIME,</if>
+        <if test="createOperatorName != null">CREATE_OPERATOR_NAME,</if>
+        <if test="updateTime != null">UPDATE_TIME,</if>
+        <if test="updateOperatorName != null">UPDATE_OPERATOR_NAME</if>
+        ) values (
+        <if test="billMasterId != null">#{billMasterId},</if>
+        <if test="billNo != null">#{billNo},</if>
+        <if test="balanceDate != null">#{balanceDate},</if>
+        <if test="billMonthly != null">#{billMonthly},</if>
+        <if test="merchantCode != null">#{merchantCode},</if>
+        <if test="customerNo != null">#{customerNo},</if>
+        <if test="billAmount != null">#{billAmount},</if>
+        <if test="paidAmount != null">#{paidAmount},</if>
+        <if test="unpaidAmount != null">#{unpaidAmount},</if>
+        <if test="discountAmount != null">#{discountAmount},</if>
+        <if test="commission != null">#{commission},</if>
+        <if test="refer != null">#{refer},</if>
+        <if test="currency != null">#{currency},</if>
+        <if test="timeLimit != null">#{timeLimit},</if>
+        <if test="status != null">#{status},</if>
+        <if test="remark != null">#{remark},</if>
+        <if test="overdue != null">#{overdue},</if>
+        <if test="financeManagerEmail != null">#{financeManagerEmail},</if>
+        <if test="startDate != null">#{startDate},</if>
+        <if test="endDate != null">#{endDate},</if>
+        <if test="createTime != null">#{createTime},</if>
+        <if test="createOperatorName != null">#{createOperatorName},</if>
+        <if test="updateTime != null">#{updateTime},</if>
+        <if test="updateOperatorName != null">#{updateOperatorName}</if>
+        )
+    </insert>
+
+    <update id="update" parameterType="MerchantBill">
+        update MIS_MERCHANT_BILL
+        <set>
+            <if test="billNo != null">BILL_NO = #{billNo},</if>
+            <if test="balanceDate != null">BALANCE_DATE = #{balanceDate},</if>
+            <if test="billMonthly != null">BILL_MONTHLY = #{billMonthly},</if>
+            <if test="merchantCode != null">MERCHANT_CODE = #{merchantCode},</if>
+            <if test="customerNo != null">CUSTOMER_NO = #{customerNo},</if>
+            <if test="billAmount != null">BILL_AMOUNT = #{billAmount},</if>
+            <if test="paidAmount != null">PAID_AMOUNT = #{paidAmount},</if>
+            <if test="unpaidAmount != null">UNPAID_AMOUNT = #{unpaidAmount},</if>
+            <if test="discountAmount != null">DISCOUNT_AMOUNT = #{discountAmount},</if>
+            <if test="commission != null">COMMISSION = #{commission},</if>
+            <if test="refer != null">REFER = #{refer},</if>
+            <if test="currency != null">CURRENCY = #{currency},</if>
+            <if test="timeLimit != null">TIME_LIMIT = #{timeLimit},</if>
+            <if test="status != null">STATUS = #{status},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+            <if test="overdue != null">OVERDUE = #{overdue},</if>
+            <if test="financeManagerEmail != null">FINANCE_MANAGER_EMAIL = #{financeManagerEmail},</if>
+            <if test="startDate != null">START_DATE = #{startDate},</if>
+            <if test="endDate != null">END_DATE = #{endDate},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="createOperatorName != null">CREATE_OPERATOR_NAME = #{createOperatorName},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+            <if test="updateOperatorName != null">UPDATE_OPERATOR_NAME = #{updateOperatorName},</if>
+        </set>
+        <where>
+            <include refid="baseWhere"/>
+        </where>
+    </update>
+
+
+</mapper>

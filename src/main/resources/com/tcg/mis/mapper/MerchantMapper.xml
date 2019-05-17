@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MerchantMapper">
+
+    <select id="findTemplateProductWallet" resultType="com.tcg.mis.model.vo.TemplateProductWallet">
+        select
+            distinct tmctd.product
+            ,tlat.account_type_id
+            ,aa.BALANCE
+            ,aa.ACCOUNT_ID
+        from MIS_MERCHANT_CHARGE_CONFIG tmcc
+        inner join MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL tmctd on tmctd.TEMPLATE_RID = tmcc.TEMPLATE_RID and tmctd.DETAIL_TYPE = 4
+        inner join T_LOBBY_ACCOUNT_TYPE tlat on tlat.account_type_name = tmctd.product and tlat.status = 1
+        inner join T_LOBBY_WALLET_MANAGER tlwm on  tlwm.account_type_id = tlat.account_type_id and tlwm.is_use = 1 and tlwm.merchant_core  = #{merchantCode}
+        inner join ADMIN_MERCHANT am on am.MERCHANT_CODE = tmcc.MERCHANT_CODE
+        inner join ACS_ACCOUNT aa on aa.customer_id = am.customer_id and aa.ACCOUNT_TYPE_ID = tlat.account_type_id
+        where tmcc.MERCHANT_CODE = #{merchantCode}
+        and tmctd.product != 'PT'
+    </select>
+
+    <select id="findAcsAccount" resultType="com.tcg.mis.model.vo.AcsAccount">
+        select
+            aa.*
+        from ADMIN_MERCHANT tm
+        inner join ACS_ACCOUNT aa on aa.customer_id = tm.customer_id and aa.ACCOUNT_TYPE_ID = #{accountTypeId} and aa.ACTIVE_FLAG = 1
+        where tm.MERCHANT_CODE = #{merchantCode}
+    </select>
+
+    <select id="findMerchant" resultType="com.tcg.mis.model.vo.Merchant">
+        select *
+        from ADMIN_MERCHANT tm
+        where tm.MERCHANT_CODE = #{merchantCode}
+    </select>
+
+    <select id="findLobbyAccountTypes" resultType="com.tcg.mis.model.vo.LobbyAccountType">
+        select account_type_id,account_type_name
+        from t_lobby_account_type
+        where status = 1
+        and account_type_id not in (2,5)
+    </select>
+
+    <select id="findPrepayTemplateDetails" resultType="com.tcg.mis.model.vo.PrepayTemplateDetailTO">
+        select tmctd.*
+        from MIS_MERCHANT_CHARGE_CONFIG tmcc
+		inner join MIS_MERCHANT_CHARGE_TEMPLATE tmct on tmcc.TEMPLATE_RID = tmct.RID
+		inner join MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL tmctd on tmct.RID = tmctd.TEMPLATE_RID and tmctd.DETAIL_TYPE = 4
+		<where>
+            <if test="condition.merchantCode != null">
+                and tmcc.merchant_Code = #{condition.merchantCode}
+            </if>
+            <if test="condition.product != null">
+                and tmctd.product = #{condition.product}
+            </if>
+            <if test="condition.subProduct != null and condition.subProduct != ''">
+                and tmctd.sub_product = #{condition.subProduct}
+            </if>
+            <if test="condition.product != null and (condition.subProduct == null or condition.subProduct == '')">
+                and tmctd.sub_product is null
+            </if>
+        </where>
+        order by tmctd.product,tmctd.sub_product nulls first
+    </select>
+    
+    <update id="updateVirtualCashPledge" >
+        update tcg_admin.ADMIN_MERCHANT SET VIRTUAL_CASH_PLEDGE = #{virtualCashPledge, jdbcType=DECIMAL} where MERCHANT_CODE = #{merchantCode}
+    </update>
+    
+    <update id="updateVirtualCashPledgeAndLeverMultiplier" >
+        update tcg_admin.ADMIN_MERCHANT
+          SET
+          VIRTUAL_CASH_PLEDGE = #{virtualCashPledge, jdbcType=DECIMAL}, 
+          LEVER_MULTIPLIER = #{leverMultiplier, jdbcType=DECIMAL} 
+          where MERCHANT_CODE = #{merchantCode}
+    </update>
+    
+    <select id="findMerchantCashPledgeTo" resultType="com.tcg.mis.to.response.MerchantCashPledgeTo">
+        select mer.merchant_code, acs.AVAIL_BALANCE cash_pledge_amount, 
+        NVL(tm.LEVER_MULTIPLIER, 0) level_Multiplier, 
+        NVL(tm.LEVER_MULTIPLIER * acs.AVAIL_BALANCE, 0) total_amount
+        from TCG_CORE.ACS_ACCOUNT acs
+        INNER JOIN TCG_CORE.US_MERCHANT mer ON acs.CUSTOMER_ID = mer.CUSTOMER_ID
+        INNER JOIN ADMIN_MERCHANT tm ON tm.merchant_code = mer.merchant_code
+        where acs.ACCOUNT_TYPE_ID = 5
+        AND acs.AVAIL_BALANCE > 0
+        <if test="merchantCode != null">
+            AND mer.merchant_code = #{merchantCode}
+        </if>
+    </select>
+    
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.AcsTransactionMapper">
+
+    <sql id="findTcgTransactionSql">
+        select
+        at.*,
+        mrd.tx_type as recharge_tx_type,
+        (case when at.tx_type_id in (8301,8302) then mrd.merchant_code else mwd.remark end) as trans_remark
+        from ACS_TRANSACTION at
+        left join MIS_RECHARGE_DETAIL mrd on at.order_no = mrd.order_no
+        left join MIS_WITHDRAW_DETAIL mwd on at.order_no = mwd.order_no
+        <where>
+            <if test="condition.txTypeIds != null and condition.txTypeIds.size() > 0">
+                AND at.tx_type_id IN
+                <foreach item="item" collection="condition.txTypeIds" separator="," open="(" close=")" index="">
+                    ${item}
+                </foreach>
+            </if>
+            <if test="condition.debitType != null">
+                and at.DEBIT = #{condition.debitType}
+            </if>
+            <if test="condition.startDate != null">
+                and TX_TIME >= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null">
+                and TX_TIME &lt;= #{condition.endDate}
+            </if>
+            <choose>
+                <when test="condition.type == 0">
+                    AND tx_type_id = 8301 AND mrd.tx_type = 0
+                </when>
+                <when test="condition.type == 1">
+                    AND tx_type_id = 8302
+                </when>
+                <when test="condition.type == 2">
+                    AND tx_type_id = 8401
+                </when>
+                <when test="condition.type == 3">
+                    AND tx_type_id = 8402
+                </when>
+                <when test="condition.type == 4">
+                    AND tx_type_id = 8301 AND mrd.tx_type != 0
+                </when>
+            </choose>
+            <if test="condition.bankAcctRid != null">
+                AND (mrd.bank_acct_rid = #{condition.bankAcctRid} OR mwd.bank_acct_rid = #{condition.bankAcctRid})
+            </if>
+        </where>
+    </sql>
+
+    <select id="findTcgTransaction" resultType="com.tcg.mis.model.TcgTransaction">
+        <include refid="findTcgTransactionSql"></include>
+    </select>
+
+    <select id="sumByTcgTransaction" resultType="com.tcg.mis.model.TcgTransactionSummary">
+        select
+          sum(AMOUNT) as tx_amount_total,
+          sum(CASE WHEN DEBIT =1 THEN AMOUNT ELSE 0 END ) as credit_amount_total,
+          sum(CASE WHEN DEBIT =2 THEN AMOUNT ELSE 0 END ) as debit_amount_total
+        from (
+          <include refid="findTcgTransactionSql"></include>
+        ) t
+    </select>
+
+    <sql id="findMerchantTransactionSql">
+        select
+          at.*
+          ,tlwm.account_type_name
+          ,mrd.tx_type as recharge_tx_type
+          ,aa.account_type_id
+          ,um.merchant_code
+        from US_MERCHANT um
+        inner join ACS_ACCOUNT aa on um.customer_id = aa.customer_id
+        inner join ACS_TRANSACTION at on at.account_id = aa.account_id
+        left join MIS_RECHARGE_DETAIL mrd on at.order_no = mrd.order_no
+        left join T_LOBBY_ACCOUNT_TYPE tlwm on aa.ACCOUNT_TYPE_ID = tlwm.account_type_id
+        where um.merchant_code = #{condition.merchantCode}
+        <if test="condition.accountTypeId != null">
+            and aa.account_type_id = #{condition.accountTypeId}
+        </if>
+        <if test="condition.startDate != null">
+            and at.TX_TIME >= #{condition.startDate}
+        </if>
+        <if test="condition.endDate != null">
+            and at.TX_TIME &lt;= #{condition.endDate}
+        </if>
+        <choose>
+            <when test="condition.type == 0">
+                and mrd.tx_type = 0 and at.debit = 1
+            </when>
+            <when test="condition.type == 1">
+                and mrd.tx_type = 1 and at.debit = 1
+            </when>
+            <when test="condition.type == 2">
+                and aa.account_type_id = 2 and at.debit = 2
+            </when>
+            <when test="condition.type == 3">
+                and aa.account_type_id = 5 and at.debit = 2
+            </when>
+            <when test="condition.type == 4">
+                and aa.account_type_id not in (2,5) and at.debit = 1
+            </when>
+            <when test="condition.type == 5">
+                and aa.account_type_id = 2 and at.debit = 1 and mrd.tx_type is null
+            </when>
+            <when test="condition.type == 6">
+                and aa.account_type_id not in (2,5) and at.debit = 2
+            </when>
+        </choose>
+    </sql>
+
+    <select id="findMerchantTransaction" resultType="com.tcg.mis.model.TcgTransaction">
+        <include refid="findMerchantTransactionSql"></include>
+    </select>
+
+    <select id="sumByMerchantTransaction" resultType="com.tcg.mis.model.TcgTransactionSummary">
+        select
+        sum(AMOUNT) as tx_amount_total
+        from (
+          <include refid="findMerchantTransactionSql"></include>
+        ) t
+    </select>
+
+
+</mapper>

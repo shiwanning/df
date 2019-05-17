@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisMerchantChargeTemplateDetailModifyMapper">
+  	
+  	<sql id="BaseColumns">
+        ${alias}.RID,
+		${alias}.TEMPLATE_RID,
+		${alias}.DETAIL_TYPE,
+		${alias}.CODE,
+		${alias}.PRODUCT,
+		${alias}.SUB_PRODUCT,
+		${alias}.RANGE_RATE_FLAG,
+		${alias}.WIN_LOSS_CALCULATE_FLAG,
+		${alias}.ACCUMULATE_NEGATIVE,
+		${alias}.RATE_TYPE,
+		${alias}.RATE,
+		${alias}.CHARGE,
+		${alias}.REMARK,
+		${alias}.CREATE_OPERATOR_NAME,
+		${alias}.UPDATE_OPERATOR_NAME,
+		${alias}.CREATE_TIME,
+		${alias}.UPDATE_TIME
+    </sql>
+    
+    <sql id="BaseColumnsNoAlias">
+        RID,
+		TEMPLATE_RID,
+		DETAIL_TYPE,
+		CODE,
+		PRODUCT,
+		SUB_PRODUCT,
+		RANGE_RATE_FLAG,
+		WIN_LOSS_CALCULATE_FLAG,
+		ACCUMULATE_NEGATIVE,
+		RATE_TYPE,
+		RATE,
+		CHARGE,
+		REMARK,
+		CREATE_OPERATOR_NAME,
+		UPDATE_OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+
+    <insert id="insert">
+        <selectKey keyProperty="rid" resultType="long" order="BEFORE">
+            SELECT SEQ_MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_MODIFY.nextval from dual
+        </selectKey>
+        INSERT INTO MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_MODIFY(<include refid="BaseColumnsNoAlias" />) 
+        VALUES (
+        #{rid, jdbcType=DECIMAL},
+        #{templateRid, jdbcType=DECIMAL},
+        #{detailType, jdbcType=DECIMAL},
+        #{code, jdbcType=VARCHAR},
+        #{product, jdbcType=VARCHAR},
+        #{subProduct, jdbcType=VARCHAR},
+        #{rangeRateFlag, jdbcType=DECIMAL},
+        #{winLossCalculateFlag, jdbcType=DECIMAL},
+        #{accumulateNegative, jdbcType=DECIMAL}, 
+        #{rateType, jdbcType=DECIMAL},
+        #{rate, jdbcType=DECIMAL},
+        #{charge, jdbcType=DECIMAL},
+        #{remark, jdbcType=VARCHAR},
+        #{createOperatorName, jdbcType=VARCHAR},
+        #{updateOperatorName, jdbcType=VARCHAR},
+        SYSTIMESTAMP,
+        SYSTIMESTAMP)
+    </insert>
+    
+    <update id="update">
+        UPDATE MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_MODIFY SET
+			TEMPLATE_RID = #{templateRid, jdbcType=DECIMAL},
+			DETAIL_TYPE = #{detailType, jdbcType=DECIMAL},
+			CODE = #{code, jdbcType=VARCHAR},
+			PRODUCT = #{product, jdbcType=VARCHAR},
+			SUB_PRODUCT = #{subProduct, jdbcType=VARCHAR},
+			RANGE_RATE_FLAG = #{rangeRateFlag, jdbcType=DECIMAL},
+			WIN_LOSS_CALCULATE_FLAG = #{winLossCalculateFlag, jdbcType=DECIMAL},
+			ACCUMULATE_NEGATIVE = #{accumulateNegative, jdbcType=DECIMAL},
+			RATE_TYPE = #{rateType, jdbcType=DECIMAL},
+			RATE = #{rate, jdbcType=DECIMAL},
+			CHARGE = #{charge, jdbcType=DECIMAL},
+			REMARK = #{remark, jdbcType=VARCHAR},
+			UPDATE_OPERATOR_NAME = #{updateOperatorName, jdbcType=VARCHAR},
+			UPDATE_TIME = SYSTIMESTAMP
+		WHERE RID = #{rid}
+    </update>
+    
+    <select id="findOne" resultType="MisMerchantChargeTemplateDetailModify">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_MODIFY mc 
+    	<where> 
+    		AND mc.rid = #{rid}
+    	</where>
+    </select>
+    
+    <select id="findByTemplateRid" resultType="MisMerchantChargeTemplateDetailModify">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_MERCHANT_CHARGE_TEMPLATE_DETAIL_MODIFY mc 
+    	<where> 
+    		AND mc.template_rid = #{templateRid}
+    	</where>
+    </select>
+    
+</mapper>

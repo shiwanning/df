@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisMerchantChargeConfigMapper">
+  	
+  	<sql id="BaseColumns">
+        ${alias}.RID,
+		${alias}.MERCHANT_CODE,
+		${alias}.TEMPLATE_RID,
+		${alias}.CREATE_OPERATOR_NAME,
+		${alias}.UPDATE_OPERATOR_NAME,
+		${alias}.CREATE_TIME,
+		${alias}.UPDATE_TIME
+    </sql>
+    
+    <sql id="BaseColumnsNoAlias">
+        RID,
+		MERCHANT_CODE,
+		TEMPLATE_RID,
+		CREATE_OPERATOR_NAME,
+		UPDATE_OPERATOR_NAME,
+		CREATE_TIME,
+		UPDATE_TIME
+    </sql>
+    
+    <insert id="insert">
+        <selectKey keyProperty="rid" resultType="long" order="BEFORE">
+            SELECT SEQ_MIS_MERCHANT_CHARGE_CONFIG.nextval from dual
+        </selectKey>
+        INSERT INTO MIS_Merchant_charge_config(<include refid="BaseColumnsNoAlias" />) 
+        VALUES (#{rid}, #{merchantCode}, #{templateRid}, #{createOperatorName}, #{updateOperatorName}, SYSTIMESTAMP, SYSTIMESTAMP)
+    </insert>
+    
+    <update id="update">
+        UPDATE MIS_Merchant_charge_config SET
+			MERCHANT_CODE = #{merchantCode},
+		    TEMPLATE_RID = #{templateRid},
+			RATE = #{rate},
+			UPDATE_OPERATOR_NAME = #{updateOperatorName},
+			UPDATE_TIME = SYSTIMESTAMP
+		WHERE RID = #{rid}
+    </update>
+    
+
+    <select id="findByMerchantCode" resultType="MisMerchantChargeConfig">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_Merchant_charge_config mc 
+    	<where> 
+    		AND MERCHANT_CODE = #{merchantCode}
+    	</where>
+    	order by mc.create_time
+    </select>
+    
+    <select id="findByTemplateRid" resultType="MisMerchantChargeConfig">
+    	select <include refid="BaseColumns" ><property name="alias" value="mc"/></include> 
+    	from MIS_Merchant_charge_config mc 
+    	<where> 
+    		AND mc.TEMPLATE_RID = #{templateRid}
+    	</where>
+    	order by lower(mc.merchant_code)
+    </select>
+    
+    <delete id="deleteByMerchantCode">
+        delete from MIS_Merchant_charge_config mc where mc.merchant_Code = #{merchantCode}
+    </delete>
+    
+</mapper>

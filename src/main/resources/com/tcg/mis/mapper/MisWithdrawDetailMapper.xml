@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcg.mis.mapper.MisWithdrawDetailMapper">
+  <resultMap id="BaseResultMap" type="com.tcg.mis.model.MisWithdrawDetail">
+    <id column="RID" jdbcType="DECIMAL" property="rid" />
+    <result column="ORDER_NO" jdbcType="VARCHAR" property="orderNo" />
+    <result column="BANK_ACCT_RID" jdbcType="DECIMAL" property="bankAcctRid" />
+    <result column="TX_TYPE" jdbcType="DECIMAL" property="txType" />
+    <result column="TX_AMOUNT" jdbcType="DECIMAL" property="txAmount" />
+    <result column="WITHDRAW_CHARGE" jdbcType="DECIMAL" property="withdrawCharge" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_OPERATOR_NAME" jdbcType="VARCHAR" property="createOperatorName" />
+    <result column="UPDATE_OPERATOR_NAME" jdbcType="VARCHAR" property="updateOperatorName" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RID, ORDER_NO, BANK_ACCT_RID, TX_TYPE, TX_AMOUNT, WITHDRAW_CHARGE, REMARK, CREATE_OPERATOR_NAME, 
+    UPDATE_OPERATOR_NAME, CREATE_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MIS_WITHDRAW_DETAIL
+    where RID = #{rid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from MIS_WITHDRAW_DETAIL
+    where RID = #{rid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.tcg.mis.model.MisWithdrawDetail">
+    insert into MIS_WITHDRAW_DETAIL (RID, ORDER_NO, BANK_ACCT_RID, 
+      TX_TYPE, TX_AMOUNT, WITHDRAW_CHARGE, 
+      REMARK, CREATE_OPERATOR_NAME, UPDATE_OPERATOR_NAME, 
+      CREATE_TIME, UPDATE_TIME)
+    values (#{rid,jdbcType=DECIMAL}, #{orderNo,jdbcType=VARCHAR}, #{bankAcctRid,jdbcType=DECIMAL}, 
+      #{txType,jdbcType=DECIMAL}, #{txAmount,jdbcType=DECIMAL}, #{withdrawCharge,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createOperatorName,jdbcType=VARCHAR}, #{updateOperatorName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tcg.mis.model.MisWithdrawDetail">
+    insert into MIS_WITHDRAW_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        RID,
+      </if>
+      <if test="orderNo != null">
+        ORDER_NO,
+      </if>
+      <if test="bankAcctRid != null">
+        BANK_ACCT_RID,
+      </if>
+      <if test="txType != null">
+        TX_TYPE,
+      </if>
+      <if test="txAmount != null">
+        TX_AMOUNT,
+      </if>
+      <if test="withdrawCharge != null">
+        WITHDRAW_CHARGE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME,
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAcctRid != null">
+        #{bankAcctRid,jdbcType=DECIMAL},
+      </if>
+      <if test="txType != null">
+        #{txType,jdbcType=DECIMAL},
+      </if>
+      <if test="txAmount != null">
+        #{txAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawCharge != null">
+        #{withdrawCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperatorName != null">
+        #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tcg.mis.model.MisWithdrawDetail">
+    update MIS_WITHDRAW_DETAIL
+    <set>
+      <if test="orderNo != null">
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAcctRid != null">
+        BANK_ACCT_RID = #{bankAcctRid,jdbcType=DECIMAL},
+      </if>
+      <if test="txType != null">
+        TX_TYPE = #{txType,jdbcType=DECIMAL},
+      </if>
+      <if test="txAmount != null">
+        TX_AMOUNT = #{txAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawCharge != null">
+        WITHDRAW_CHARGE = #{withdrawCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperatorName != null">
+        CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperatorName != null">
+        UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tcg.mis.model.MisWithdrawDetail">
+    update MIS_WITHDRAW_DETAIL
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      BANK_ACCT_RID = #{bankAcctRid,jdbcType=DECIMAL},
+      TX_TYPE = #{txType,jdbcType=DECIMAL},
+      TX_AMOUNT = #{txAmount,jdbcType=DECIMAL},
+      WITHDRAW_CHARGE = #{withdrawCharge,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_OPERATOR_NAME = #{createOperatorName,jdbcType=VARCHAR},
+      UPDATE_OPERATOR_NAME = #{updateOperatorName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where RID = #{rid,jdbcType=DECIMAL}
+  </update>
+
+    <select id="findWithdrawBankAccountAcsAcctId" resultType="java.lang.Integer">
+        select mba.ACS_ACCT_ID
+        from MIS_WITHDRAW_DETAIL mwd
+        inner join MIS_BANK_ACCTS mba on mwd.BANK_ACCT_RID = mba.RID
+        where mwd.ORDER_NO = #{orderNo}
+    </select>
+
+    <select id="findWithdrawCharge" resultType="java.math.BigDecimal">
+        select mwd.WITHDRAW_CHARGE
+        from MIS_WITHDRAW_DETAIL mwd
+        where mwd.ORDER_NO = #{orderNo}
+    </select>
+</mapper>

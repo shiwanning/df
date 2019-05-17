@@ -1,0 +1,10 @@
+*.DS_Store
+*.iml
+.idea
+.settings
+.classpath
+.mymetadata
+.project
+target/
+logs/
+src/test/ignore
